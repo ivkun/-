@@ -53,6 +53,18 @@ function indexOfMass(a, m) {
     else if(result === -1) return false;
 }
 
+function lightWin(elem, m) {
+    for(i = 0; i < m.length; i++) {
+        elem[m[i]].style.backgroundColor = "silver";
+    }
+}
+
+function unLigntWin(elem) {
+    for(i = 0; i < elem.length; i++) {
+        elem[i].style.backgroundColor = "transparent";
+    }
+}
+
 function checkWin() {
     var massWin = [ [0,1,2],[3,4,5],[6,7,8],
                   [0,3,6],[1,4,7],[2,5,8],
@@ -65,12 +77,12 @@ function checkWin() {
     }
     for(z = 0; z < massWin.length; z++) {
         if(indexOfMass(x, massWin[z])) {
-            endGame()
+            lightWin(gameBlock, massWin[z]);
             return("Победил крестик");
         }
         
         if(indexOfMass(y, massWin[z])) {
-            endGame()
+            lightWin(gameBlock, massWin[z])
             return("Победил нолик");
         }
     }
@@ -84,6 +96,7 @@ function stopPlay() {
 
 function playGame() {
     transformGame();
+    unLigntWin(gameBlock);
     blockWinner.classList.add("hidden-winner");
     randomInner();
     var count = 0;
@@ -95,6 +108,8 @@ function playGame() {
             count++;
             if(checkWin()) {
                 blockWinner.innerHTML = "Игра закончена <br/>" + checkWin();
+                stopPlay();
+                setTimeout(endGame, 2000);
             };
             if(count === 9) {
                 if(!checkWin()) {
